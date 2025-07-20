@@ -1,0 +1,77 @@
+.user-list-container {
+  padding: 2rem;
+  background-color: #f5fcfb;
+  border-radius: 10px;
+  margin: 20px;
+}
+
+.user-list-container h2 {
+  font-size: 24px;
+  margin-bottom: 1rem;
+}
+
+.search-input {
+  padding: 10px;
+  width: 300px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.user-table th,
+.user-table td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
+}
+
+.user-table th {
+  background-color: #e0f2f1;
+}
+
+.user-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.btn-green {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 25px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn-blue {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 25px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn-red {
+  background-color: #dc3545;
+  color: white;
+  padding: 10px 25px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn-gray {
+  background-color: #6c757d;
+  color: white;
+  padding: 10px 25px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
