@@ -1,0 +1,74 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-contenido {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  width: 400px;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.modal-contenido h3 {
+  margin-bottom: 1rem;
+}
+
+.modal-contenido input {
+  display: block;
+  width: 100%;
+  margin-bottom: 1rem;
+  padding: 8px;
+}
+
+.modal-botones {
+  display: flex;
+  justify-content: space-between;
+}
+
+.modal-botones button {
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+@keyframes fadeIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.btn-guardar {
+  background-color: #28a745 !important; /* Verde */
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.btn-guardar:hover {
+  background-color: #218838 !important;
+}
+
+.btn-cancelar {
+  background-color: #dc3545 !important; /* Rojo */
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.btn-cancelar:hover {
+  background-color: #c82333 !important;
+}
