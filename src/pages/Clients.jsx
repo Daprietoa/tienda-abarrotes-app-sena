@@ -1,13 +1,12 @@
 import React from "react";
-import Sidebar from "../components/Sidebar";
 import ClientList from "../components/ClientList";
-
+import Sidebar from "../components/Sidebar";
 
 function Clients() {
   return (
-    <div style={{ display: "flex" }}>
+    <div className="dashboard">
       <Sidebar />
-      <div style={{ flex: 1 }}>
+      <div className="main-content">
         <ClientList />
       </div>
     </div>

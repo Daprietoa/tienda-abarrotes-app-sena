@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./ProductList.css";
-import { FaEdit, FaTrash, FaEye, FaPlus, FaSearch } from "react-icons/fa";
+import { FaEdit, FaTrash, FaPlus, FaSearch } from "react-icons/fa";
 import AddProductModal from '../components/AddProductModal';
+import EditProductModal from '../components/EditProductModal';
 
 function ProductList() {
   const [productos, setProductos] = useState([]);
@@ -10,14 +11,20 @@ function ProductList() {
   const [paginaActual, setPaginaActual] = useState(1);
   const [busqueda, setBusqueda] = useState("");
   const [mostrarModal, setMostrarModal] = useState(false);
+  const [mostrarEditar, setMostrarEditar] = useState(false);
+  const [productoEditar, setProductoEditar] = useState(null);
 
   const productosPorPagina = 5;
 
-  const cargarProductos = () => {
-    fetch("http://127.0.0.1:8000/product/get-products")
+  const cargarProductos = (termino = "") => {
+    const url = termino
+      ? `http://127.0.0.1:8000/product/search?nombre=${encodeURIComponent(termino)}`
+      : "http://127.0.0.1:8000/product/get-products";
+
+    fetch(url)
       .then((res) => res.json())
       .then((data) => {
-        const productos = Array.isArray(data.data) ? data.data : data;
+        const productos = Array.isArray(data.data) ? data.data : [];
         setProductos(productos);
         setCargando(false);
       })
@@ -32,8 +39,10 @@ function ProductList() {
   }, []);
 
   const handleSearch = (e) => {
-    setBusqueda(e.target.value.toLowerCase());
+    const valor = e.target.value;
+    setBusqueda(valor);
     setPaginaActual(1);
+    cargarProductos(valor);
   };
 
   const handleEliminar = async (id) => {
@@ -49,7 +58,7 @@ function ProductList() {
 
       if (response.ok && data.success) {
         alert("Producto eliminado correctamente");
-        cargarProductos(); // Recargar la lista
+        cargarProductos(busqueda); // recarga manteniendo la búsqueda
       } else {
         alert("Error al eliminar el producto: " + (data.message || "Respuesta inesperada"));
       }
@@ -59,13 +68,14 @@ function ProductList() {
     }
   };
 
-  const productosFiltrados = productos.filter((p) =>
-    (p.nombre_producto || p.nombre || "").toLowerCase().includes(busqueda)
-  );
+  const handleEditar = (producto) => {
+    setProductoEditar(producto);
+    setMostrarEditar(true);
+  };
 
-  const totalPaginas = Math.ceil(productosFiltrados.length / productosPorPagina);
+  const totalPaginas = Math.ceil(productos.length / productosPorPagina);
   const indiceInicio = (paginaActual - 1) * productosPorPagina;
-  const productosEnPagina = productosFiltrados.slice(indiceInicio, indiceInicio + productosPorPagina);
+  const productosEnPagina = productos.slice(indiceInicio, indiceInicio + productosPorPagina);
 
   if (cargando) return <p className="loading">Cargando productos...</p>;
   if (error) return <p className="error">Error: {error}</p>;
@@ -110,8 +120,7 @@ function ProductList() {
               <td>${p.precio_venta}</td>
               <td>{p.stock || 0}</td>
               <td className="acciones">
-                <button className="btn-ver"><FaEye /></button>
-                <button className="btn-editar"><FaEdit /></button>
+                <button className="btn-editar" onClick={() => handleEditar(p)}><FaEdit /></button>
                 <button className="btn-eliminar" onClick={() => handleEliminar(p.id_producto)}><FaTrash /></button>
               </td>
             </tr>
@@ -132,7 +141,18 @@ function ProductList() {
       {mostrarModal && (
         <AddProductModal
           onClose={() => setMostrarModal(false)}
-          onProductoAgregado={cargarProductos}
+          onProductoAgregado={() => cargarProductos(busqueda)}
+        />
+      )}
+
+      {mostrarEditar && productoEditar && (
+        <EditProductModal
+          producto={productoEditar}
+          onClose={() => {
+            setMostrarEditar(false);
+            setProductoEditar(null);
+          }}
+          onProductoActualizado={() => cargarProductos(busqueda)}
         />
       )}
     </div>
